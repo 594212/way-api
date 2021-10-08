@@ -8,30 +8,39 @@ import java.util.*
 import javax.persistence.*
 import javax.validation.constraints.NotBlank
 
+
 @Entity
 @Table(name = "mangas")
 data class Manga(
-        var en_name: String ="",
+        @Column(columnDefinition = "varchar(255) default 'empty-name'")
+        var en_name: String = "",
+        @Column(columnDefinition = "varchar(255) default ' '")
         var description: String = "",
-        var status: String ="",
+        @Column(columnDefinition = "varchar(255) default 'В процессе'")
+        var status: String = "",
+        @Column(columnDefinition = "integer default 9999")
         var year: Int = 0,
-        var language: String ="",
+        @Column(columnDefinition = "varchar(255) default 'неизвестно'")
+        var language: String = "",
+        @Column(columnDefinition = "varchar(255) default 'неизвестно'")
         var author: String = "",
 
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
         @get: NotBlank
         var name: String = "",
+        @Column(columnDefinition = "boolean default false")
         var type: Boolean = false,
         @DateTimeFormat
-        val createdAt: Date = Date.from(Instant.now())) {
-    val slug get() = "${name.cyr2lat().toSlug()}$id"
+        val createdAt: Date = Date.from(Instant.now()),
+) {
+    val slug: String =  "${name.cyr2lat().toSlug()}$id"
 
-    @OneToMany(mappedBy = "chapter", targetEntity = Chapters::class,
-            cascade = arrayOf(CascadeType.ALL),fetch = FetchType.LAZY )
-    private var chapters: Collection<Chapters> = mutableListOf()
+    @OneToMany(mappedBy = "chapter", targetEntity = Chapter::class,
+            cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    var chapters: List<Chapter> = mutableListOf()
 
-    @OneToOne(targetEntity = User::class,cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
+    @OneToOne(targetEntity = User::class, cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private var present: User? = null
 }

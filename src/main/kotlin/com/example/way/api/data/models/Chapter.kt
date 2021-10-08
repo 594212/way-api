@@ -8,15 +8,16 @@ import javax.validation.constraints.NotBlank
 
 @Entity
 @Table(name = "chapters")
-class Chapters(
+class Chapter(
         @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id :Long = 0,
 
         @get: NotBlank
-        var volume: Long = -1,
+        var volume: Int = -1,
 
         @get: NotBlank
         var chapter: Long = -1,
+        @Column(columnDefinition = "boolean default false")
         var type: Boolean = false,
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now())

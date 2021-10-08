@@ -24,7 +24,7 @@ data class User (
         @Pattern(regexp = "\\A(activated|deactivated)\\z")
         var accoutStatus: String = "activated",
         @Id
-        @GeneratedValue(strategy = GenerationType.AUTO)
+        @GeneratedValue(strategy = GenerationType.IDENTITY)
         var id: Long = 0,
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now()),
@@ -32,4 +32,5 @@ data class User (
 ) {
     @OneToMany(mappedBy = "author", cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY, targetEntity = Post::class)
     private var sentPosts: Collection<Post>? = null
+
     }

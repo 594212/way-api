@@ -7,7 +7,7 @@ import javax.validation.constraints.Size
 @Table(name = "genres")
 data class Genre(
         @Id
-        @GeneratedValue(strategy = GenerationType.IDENTITY)
+        @GeneratedValue(strategy = GenerationType.AUTO)
         var id: Long = 0,
         @Column(unique = true)
         @Size(min = 2)
