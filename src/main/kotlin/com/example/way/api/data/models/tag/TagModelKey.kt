@@ -1,4 +1,4 @@
-package com.example.way.api.data.models
+package com.example.way.api.data.models.tag
 
 import java.io.Serializable
 import javax.persistence.Column
@@ -11,5 +11,5 @@ data class TagModelKey(
         var modelId: Long,
 
         @Column(name = "tag_id")
-        var tagId: Long
+        var tagId: Long,
 ) : Serializable

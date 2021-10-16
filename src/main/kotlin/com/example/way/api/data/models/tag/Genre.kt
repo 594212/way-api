@@ -1,4 +1,4 @@
-package com.example.way.api.data.models
+package com.example.way.api.data.models.tag
 
 import javax.persistence.*
 import javax.validation.constraints.Size

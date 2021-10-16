@@ -10,21 +10,31 @@ import org.springframework.stereotype.Component
 class MangaAssembler {
 
     fun toMangaVO(manga: Manga): MangaVO {
-        return MangaVO(manga.id, manga.name, manga.author, manga.slug, lastChapter(manga.chapters)!!.createdAt.toString())
+        val  lastChapter = lastChapter(manga.chapters)
+        val createAt: String = lastChapter?.createdAt.toString()
+        return MangaVO(
+                id = manga.id,
+                name = manga.name,
+                author = manga.author,
+                pathImg = manga.slug,
+                chapter = lastChapter?.chapter,
+                updateAt = createAt
+        )
     }
+
 
     fun toMangaListVO(mangas: List<Manga>): ListMangaVO {
         val mangaListVO = mangas.map { toMangaVO(it) }
         return ListMangaVO(mangaListVO)
     }
 
-    fun lastChapter(chapters: List<Chapter>): Chapter? {
-
+    fun lastChapter(chapters: List<Chapter>?): Chapter? {
+        if(chapters.isNullOrEmpty()) return null
         var maxElem = chapters.first()
         var maxVolume = maxElem.volume
         var maxChapter = maxElem.chapter
 
-        chapters.drop(1).forEach() {
+        chapters.forEach {
             val e = it
             val v = e.volume
             when {

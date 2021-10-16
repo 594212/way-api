@@ -1,5 +1,7 @@
-package com.example.way.api.data.models
+package com.example.way.api.data.models.tag
 
+import com.example.way.api.data.models.Manga
+import com.example.way.api.data.models.Post
 import org.hibernate.annotations.*
 import org.hibernate.annotations.Any
 import javax.persistence.*
@@ -20,7 +22,8 @@ data class TagModel(
         @JoinColumn(name = "model_id",insertable = false, updatable = false)
         var model: kotlin.Any,
 
-        @Any(metaColumn = Column(name = "tag_type"))
+        (metaColumn = Column(name = "tag_type"))
+
         @AnyMetaDef(metaType = "string", idType = "long",
                 metaValues = [MetaValue(value = "manga", targetEntity = Manga::class),
                     MetaValue(value = "post", targetEntity = Post::class)])

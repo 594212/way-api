@@ -1,5 +1,7 @@
 package com.example.way.api.data.models
 
+import com.example.way.api.data.models.media.HasMedia
+import com.example.way.api.data.models.media.ModelType
 import com.example.way.api.extention.cyr2lat
 import com.example.way.api.extention.toSlug
 import org.springframework.format.annotation.DateTimeFormat
@@ -33,16 +35,20 @@ data class Manga(
         var type: Boolean = false,
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now()),
-) {
+): HasMedia {
     val slug: String =  "${name.cyr2lat().toSlug()}$id"
 
-    @OneToMany(mappedBy = "chapter", targetEntity = Chapter::class,
+    @OneToMany(mappedBy = "manga", targetEntity = Chapter::class,
             cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
-    var chapters: List<Chapter> = mutableListOf()
+    var chapters: List<Chapter>? = mutableListOf()
 
     @OneToOne(targetEntity = User::class, cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY)
     @JoinColumn(name = "user_id")
     private var present: User? = null
+
+
+    @OneToMany(mappedBy = "manga", fetch = FetchType.LAZY, targetEntity = ModelType::class)
+    val media: List<ModelType> = mutableListOf()
 }
 
 

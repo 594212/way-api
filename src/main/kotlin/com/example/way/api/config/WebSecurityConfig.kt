@@ -1,0 +1,28 @@
+package com.example.way.api.config
+
+import org.springframework.context.annotation.Configuration
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.authentication.builders.AuthenticationManagerBuilder
+import org.springframework.security.config.annotation.web.builders.HttpSecurity
+import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity
+import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter
+import org.springframework.security.core.userdetails.UserDetailsService
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
+import kotlin.jvm.Throws
+
+@Configuration
+@EnableWebSecurity
+class WebSecurityConfig : WebSecurityConfigurerAdapter() {
+    @Throws(Exception::class)
+    override fun configure(http: HttpSecurity) {
+        http.csrf().disable().authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/mangas")
+                .permitAll()
+                .antMatchers(HttpMethod.GET,"/medias")
+                .permitAll()
+
+    }
+
+
+}

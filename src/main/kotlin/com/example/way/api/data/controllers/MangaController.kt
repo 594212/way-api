@@ -7,6 +7,7 @@ import com.example.way.api.helpers.objects.ListMangaVO
 import com.example.way.api.helpers.objects.MangaVO
 import org.springframework.http.ResponseEntity
 import org.springframework.stereotype.Controller
+import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
 import javax.servlet.http.HttpServletRequest
 
@@ -15,9 +16,11 @@ import javax.servlet.http.HttpServletRequest
 class MangaController(val mangaRepository: MangaRepository,
                       val mangaAssembler: MangaAssembler) {
 
-    @RequestMapping("/list")
+    @GetMapping
     fun getMangas(httpServletRequest: HttpServletRequest): ResponseEntity<ListMangaVO> {
-        return ResponseEntity.ok(mangaAssembler.toMangaListVO(mangaRepository.findAll() as List<Manga>))
+        val mangas: ArrayList<Manga> = ArrayList()
+        mangas.addAll(mangaRepository.findAll())
+        return ResponseEntity.ok(mangaAssembler.toMangaListVO(mangas))
     }
 
 

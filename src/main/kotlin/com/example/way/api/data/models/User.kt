@@ -1,5 +1,6 @@
 package com.example.way.api.data.models
 import com.example.way.api.data.listener.UserListener
+import com.example.way.api.data.models.media.HasMedia
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
 import java.util.*
@@ -29,7 +30,7 @@ data class User (
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now()),
 
-) {
+): HasMedia {
     @OneToMany(mappedBy = "author", cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY, targetEntity = Post::class)
     private var sentPosts: Collection<Post>? = null
 

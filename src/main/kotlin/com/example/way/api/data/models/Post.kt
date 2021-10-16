@@ -1,5 +1,6 @@
 package com.example.way.api.data.models
 
+import com.example.way.api.data.models.media.HasMedia
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
 import java.util.*
@@ -18,4 +19,4 @@ data class Post(
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now())
 
-)
+) : HasMedia
