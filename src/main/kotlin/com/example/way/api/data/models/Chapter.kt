@@ -29,6 +29,6 @@ class Chapter(
         var manga: Manga? = null,
 
 ): HasMedia  {
-        @OneToMany(mappedBy = "chapter", fetch = FetchType.LAZY, targetEntity = ModelType::class)
-        val media: List<ModelType> = mutableListOf()
+        @OneToMany(mappedBy = "chapter", fetch = FetchType.LAZY, targetEntity = MediaGhost::class)
+        val media: List<MediaGhost> = mutableListOf()
 }

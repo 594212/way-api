@@ -47,8 +47,8 @@ data class Manga(
     private var present: User? = null
 
 
-    @OneToMany(mappedBy = "manga", fetch = FetchType.LAZY, targetEntity = ModelType::class)
-    val media: List<ModelType> = mutableListOf()
+    @OneToMany(mappedBy = "manga", fetch = FetchType.LAZY, targetEntity = MediaGhost::class)
+    val media: List<MediaGhost> = mutableListOf()
 }
 
 

@@ -22,8 +22,7 @@ data class TagModel(
         @JoinColumn(name = "model_id",insertable = false, updatable = false)
         var model: kotlin.Any,
 
-        (metaColumn = Column(name = "tag_type"))
-
+        @Any(metaColumn = Column(name = "tag_type"))
         @AnyMetaDef(metaType = "string", idType = "long",
                 metaValues = [MetaValue(value = "manga", targetEntity = Manga::class),
                     MetaValue(value = "post", targetEntity = Post::class)])

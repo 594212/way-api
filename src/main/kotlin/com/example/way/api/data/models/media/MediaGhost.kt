@@ -1,6 +1,8 @@
 package com.example.way.api.data.models
 
 import com.example.way.api.data.models.media.ModelType
+import org.hibernate.annotations.AnyMetaDef
+import org.hibernate.annotations.MetaValue
 import org.springframework.format.annotation.DateTimeFormat
 import java.time.Instant
 import java.util.*
@@ -8,6 +10,9 @@ import javax.persistence.*
 import javax.persistence.Entity
 import javax.persistence.Table
 
+@AnyMetaDef(name = "metaDef_model_type", metaType = "string", idType = "long",
+        metaValues = [ MetaValue(value = "App\\Model\\Chapter", targetEntity = Chapter::class),
+                MetaValue(value = "App\\Model\\Manga", targetEntity = Manga::class)])
 
 @Entity
 @Table(name = "media")
