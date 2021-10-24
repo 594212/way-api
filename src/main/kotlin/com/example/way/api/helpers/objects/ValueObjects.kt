@@ -14,6 +14,7 @@ data class ListMangaVO(
 )
 
 data class MediaVO(
+        
         val id: Long,
         val name: String?,
         val fileName: String?,

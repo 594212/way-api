@@ -3,6 +3,7 @@ package com.example.way.api.data.controllers
 import com.example.way.api.components.MangaAssembler
 import com.example.way.api.components.MediaAssembler
 import com.example.way.api.data.models.Manga
+import com.example.way.api.data.models.Media
 import com.example.way.api.data.repositories.MangaRepository
 import com.example.way.api.helpers.objects.ListMangaVO
 import com.example.way.api.helpers.objects.ListMediaVO
@@ -12,7 +13,9 @@ import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.PathVariable
 import org.springframework.web.bind.annotation.RequestMapping
+import java.util.*
 import javax.servlet.http.HttpServletRequest
+import kotlin.collections.ArrayList
 
 @Controller
 @RequestMapping("/mangas")
@@ -31,8 +34,16 @@ class MangaController(val mangaRepository: MangaRepository,
     @GetMapping("/{manga_id}")
     fun getImageManga(@PathVariable("manga_id") mangaId: Long,
                       request: HttpServletRequest): ResponseEntity<ListMediaVO> {
-        val manga: Manga = mangaRepository.findById(mangaId).get()
-        return ResponseEntity.ok( mediaAssembler.toMediaListVO(manga.media))
+        val media = mutableListOf<Media>()
+
+            mangaRepository.findById(mangaId).map {
+            media.addAll(it.media)
+        }
+        mangaRepository.findById(mangaId).map {
+            media.addAll(it.chapters.flatMap { it.media })
+        }
+        return ResponseEntity.ok( mediaAssembler.toMediaListVO(media))
     }
 
 }
+
