@@ -11,7 +11,7 @@ import javax.validation.constraints.Size
 
 @Entity
 @DiscriminatorValue("App\\Models\\User")
-@Table(name = "user")
+@Table(name = "users")
 @EntityListeners(UserListener::class)
 data class User(
         @Column(unique = true)
@@ -22,19 +22,18 @@ data class User(
         val phoneNumber: String = "",
         @Size(min = 60, max = 60)
         var password: String = "",
-        val status: String = "available",
         @Pattern(regexp = "\\A(activated|deactivated)\\z")
-        val accoutStatus: String = "activated",
+        val accountStatus: String = "activated",
         @Id
         @GeneratedValue(strategy = GenerationType.IDENTITY)
         override val id: Long = 0,
         @DateTimeFormat
         val createdAt: Date = Date.from(Instant.now()),
-
         ) : HasMedia() {
     @OneToMany(mappedBy = "author", cascade = arrayOf(CascadeType.ALL), fetch = FetchType.LAZY, targetEntity = Post::class)
     private val sentPosts: Collection<Post> = mutableListOf()
 
         @OneToMany(mappedBy = "model", fetch = FetchType.LAZY, targetEntity = Media::class)
         val media: Collection<Media> = mutableListOf()
+
 }

@@ -1,11 +1,14 @@
 package com.example.way.api.extention
 
+import org.aspectj.bridge.Message
+import kotlin.reflect.KClass
+
 fun String.toSlug() = lowercase()
-        .replace("\n", " ")
-        .replace("[^a-z\\d\\s]".toRegex(), " ")
-        .split(" ")
-        .joinToString("-")
-        .replace("-+".toRegex(), "-")
+    .replace("\n", " ")
+    .replace("[^a-z\\d\\s]".toRegex(), " ")
+    .split(" ")
+    .joinToString("-")
+    .replace("-+".toRegex(), "-")
 
 fun cyr2lat(ch: Char): String {
     return when (ch) {
@@ -52,4 +55,9 @@ fun String.cyr2lat(): String {
         sb.append(cyr2lat(ch))
     }
     return sb.toString()
+}
+
+
+fun <T, R> T.wrap(transformer: (T) -> R): R {
+    return transformer(this)
 }

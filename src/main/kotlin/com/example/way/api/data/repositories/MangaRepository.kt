@@ -5,18 +5,7 @@ import org.springframework.data.jpa.repository.JpaRepository
 import org.springframework.data.repository.CrudRepository
 import java.util.*
 
-interface MangaRepository : CrudRepository<Manga,Long> {
-//    fun findMangaByName(name: String): List<PostView>
+interface MangaRepository : JpaRepository<Manga,Long> {
 
 }
 
-
-//interface UserView {
-//    val id: Long
-//    val name: String?
-//}
-//interface PostView {
-//    val id: Long
-//    val name: String?
-//    val user: UserView?
-//}

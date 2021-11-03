@@ -41,9 +41,9 @@ data class Manga(
             cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
     val chapters: List<Chapter> = mutableListOf()
 
-    @OneToOne(targetEntity = User::class, cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
-    @JoinColumn(name = "user_id")
-    private val present: User = User()
+//    @OneToOne(targetEntity = User::class, cascade = [CascadeType.ALL], fetch = FetchType.LAZY)
+//    @JoinColumn(name = "user_id")
+//    private val present: User = User()
 
 
     @OneToMany(mappedBy = "model", fetch = FetchType.LAZY, targetEntity = Media::class)

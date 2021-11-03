@@ -1,32 +1,31 @@
 package com.example.way.api.components
 
+import com.example.way.api.data.controllers.MangaController
 import com.example.way.api.data.models.Chapter
 import com.example.way.api.data.models.Manga
-import com.example.way.api.helpers.objects.ListMangaVO
-import com.example.way.api.helpers.objects.MangaVO
+import com.example.way.api.helpers.objects.MangaResponse
+import org.springframework.hateoas.EntityModel
+import org.springframework.hateoas.server.RepresentationModelAssembler
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder
+import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Component
 
 @Component
-class MangaAssembler {
+class MangaAssembler: RepresentationModelAssembler<Manga,EntityModel<MangaResponse>> {
 
-    fun toMangaVO(manga: Manga): MangaVO {
+    fun toMangaResponse(manga: Manga): MangaResponse {
         val  lastChapter = lastChapter(manga.chapters)
         val createAt: String = lastChapter?.createdAt.toString()
-        return MangaVO(
+        return MangaResponse(
                 id = manga.id,
                 name = manga.name,
-                author = manga.author,
-                pathImg = manga.slug,
-                chapter = lastChapter?.chapter,
+                author = manga.author ?: "Moderator",
+                slug = manga.slug,
+                chapter = lastChapter?.chapter ?: 0,
                 updateAt = createAt
         )
     }
 
-
-    fun toMangaListVO(mangas: List<Manga>): ListMangaVO {
-        val mangaListVO = mangas.map { toMangaVO(it) }
-        return ListMangaVO(mangaListVO)
-    }
 
     fun lastChapter(chapters: List<Chapter>?): Chapter? {
         if(chapters.isNullOrEmpty()) return null
@@ -55,6 +54,13 @@ class MangaAssembler {
         }
 
         return maxElem
+    }
+
+    override fun toModel(entity: Manga): EntityModel<MangaResponse> {
+        return EntityModel.of(
+            toMangaResponse(entity),
+            linkTo(WebMvcLinkBuilder.methodOn(MangaController::class.java).getManga(mangaId = entity.id)).withSelfRel(),
+            linkTo(WebMvcLinkBuilder.methodOn(MangaController::class.java).getMangas()).withRel("mangas"))
     }
 
 
