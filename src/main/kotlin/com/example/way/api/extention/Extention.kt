@@ -1,6 +1,5 @@
 package com.example.way.api.extention
 
-import org.aspectj.bridge.Message
 import kotlin.reflect.KClass
 
 fun String.toSlug() = lowercase()
