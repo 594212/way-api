@@ -16,13 +16,13 @@ import java.util.stream.Collectors
 
 
 @RestController
-@RequestMapping("/mangas")
+@RequestMapping("/manga")
 class MangaController(
     val repository: MangaRepository,
     val assembler: MangaAssembler,
 ) {
 
-    @GetMapping
+    @GetMapping("/")
     fun getMangas(): CollectionModel<EntityModel<MangaResponse>> {
 
         val mangas = repository.findAll().map(assembler::toModel)
@@ -36,6 +36,13 @@ class MangaController(
 
         return assembler.toModel(manga)
 
+    }
+
+    @GetMapping("/s")
+    fun getMangasT(): List<MangaResponse>{
+
+        val mangas = repository.findAll().map(assembler::toMangaResponse)
+        return mangas
     }
 
 }

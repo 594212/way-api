@@ -11,24 +11,25 @@ import org.springframework.hateoas.server.mvc.WebMvcLinkBuilder.linkTo
 import org.springframework.stereotype.Component
 
 @Component
-class MangaAssembler: RepresentationModelAssembler<Manga,EntityModel<MangaResponse>> {
+class MangaAssembler : RepresentationModelAssembler<Manga, EntityModel<MangaResponse>> {
 
     fun toMangaResponse(manga: Manga): MangaResponse {
-        val  lastChapter = lastChapter(manga.chapters)
-        val createAt: String = lastChapter?.createdAt.toString()
+//        val  lastChapter = lastChapter(manga.chapters)
+//        val createAt: String = lastChapter?.createdAt.toString()
         return MangaResponse(
-                id = manga.id,
-                name = manga.name,
-                author = manga.author ?: "Moderator",
-                slug = manga.slug,
-                chapter = lastChapter?.chapter ?: 0,
-                updateAt = createAt
+            id = manga.id,
+            name = manga.name,
+            chapter = 666 ?: 0,
+            updateAt = manga.createdAt.toString(),
+            author = manga.author ?: "Moderator",
+            slug = manga.slug
+
         )
     }
 
 
     fun lastChapter(chapters: List<Chapter>?): Chapter? {
-        if(chapters.isNullOrEmpty()) return null
+        if (chapters.isNullOrEmpty()) return null
         var maxElem = chapters.first()
         var maxVolume = maxElem.volume
         var maxChapter = maxElem.chapter
@@ -60,7 +61,8 @@ class MangaAssembler: RepresentationModelAssembler<Manga,EntityModel<MangaRespon
         return EntityModel.of(
             toMangaResponse(entity),
             linkTo(WebMvcLinkBuilder.methodOn(MangaController::class.java).getManga(mangaId = entity.id)).withSelfRel(),
-            linkTo(WebMvcLinkBuilder.methodOn(MangaController::class.java).getMangas()).withRel("mangas"))
+            linkTo(WebMvcLinkBuilder.methodOn(MangaController::class.java).getMangas()).withRel("mangas")
+        )
     }
 
 
