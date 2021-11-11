@@ -34,7 +34,6 @@ class SecurityConfig(
             .authorizeRequests()
         { authorize ->
             authorize
-                .antMatchers(HttpMethod.GET,"/manga/s").permitAll()
                 .antMatchers(HttpMethod.POST,"/registration").permitAll()
                 .anyRequest().authenticated()
         }.requestCache { requestCache ->

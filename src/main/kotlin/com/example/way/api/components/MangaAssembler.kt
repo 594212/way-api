@@ -14,12 +14,12 @@ import org.springframework.stereotype.Component
 class MangaAssembler : RepresentationModelAssembler<Manga, EntityModel<MangaResponse>> {
 
     fun toMangaResponse(manga: Manga): MangaResponse {
-//        val  lastChapter = lastChapter(manga.chapters)
-//        val createAt: String = lastChapter?.createdAt.toString()
+        val  lastChapter = lastChapter(manga.chapters)
+        val createAt: String = lastChapter?.createdAt.toString()
         return MangaResponse(
             id = manga.id,
             name = manga.name,
-            chapter = 666 ?: 0,
+            chapter = lastChapter?.chapter ?: 0,
             updateAt = manga.createdAt.toString(),
             author = manga.author ?: "Moderator",
             slug = manga.slug
